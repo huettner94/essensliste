@@ -1,0 +1,39 @@
+<!--
+-- Copyright (c) 2023 Felix Huettner.
+--
+-- This file is part of Essensliste 
+-- (see https://github.com/huettner94/essensliste).
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+{% extends "essen/home.html" %}
+
+{% block subcontent %}
+
+<h2>Ausgewählter Tag: {{day.date.day}}.{{day.date.month}}.{{day.date.year}}</h2>
+
+<form action="/day/{{day.id}}/" method="post">
+    {% csrf_token %}
+    <div><div>{{ dayeditform.food.label }}:</div> {{ dayeditform.food }}</div>
+    <div><div>{{ dayeditform.illness.label }}:</div> {{ dayeditform.illness }}</div>
+    <div><div>{{ dayeditform.note.label }}:</div> {{ dayeditform.note }}</div>
+    <input type="submit" value="Submit">
+</form>
+
+<h3> Löschen </h3>
+<form action="/day/{{day.id}}/?delete=true" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Tag Löschen">
+</form>
+{% endblock %}

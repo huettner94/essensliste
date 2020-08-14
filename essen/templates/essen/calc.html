@@ -1,0 +1,82 @@
+<!--
+-- Copyright (c) 2023 Felix Huettner.
+--
+-- This file is part of Essensliste 
+-- (see https://github.com/huettner94/essensliste).
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+{% extends "essen/home.html" %}
+
+{% block subcontent %}
+
+<h2>Auswertung</h2>
+
+{% if error %}
+
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+
+{% else %}
+
+<b>ACHTUNG: Hier werden nur Symptome ausgewertet, die mit "Verdauung" anfangen</b>
+
+<h3>Gute Essen</h3>
+<div class='lists'>
+    <ul>
+    {% for food in food_good %}
+        <li>{{ food }}</li>
+    {% endfor %}
+    </ul>
+</div>
+
+<h3>Essen für Verdauung schlecht wenn vorher besser</h3>
+<div class='lists'>
+    <ul>
+    {% for food in food_bad %}
+        <li>{{ food.0 }}: {% for day in food.1 %}{{ day | date:"d.m.Y" }}, {% endfor %}</li>
+    {% endfor %}
+    </ul>
+</div>
+
+<h3>Essen für Verdauung mittel+schlecht (mit filter)</h3>
+<div class='lists'>
+    <ul>
+    {% for food in food_medium_or_bad %}
+        <li>{{ food.0 }}: {% for day in food.1 %}{{ day | date:"d.m.Y" }}, {% endfor %}</li>
+    {% endfor %}
+    </ul>
+</div>
+
+<h3>nicht bewertbares Essen</h3>
+<div class='lists'>
+    <ul>
+    {% for food in food_unkown %}
+        <li>{{ food }}</li>
+    {% endfor %}
+    </ul>
+</div>
+
+<h3>Übersicht über betroffene Tage</h3>
+<div class='lists'>
+    <ul>
+    {% for day in day_states %}
+        <li>{{ day.0 }}: {{ day.1 }}</li>
+    {% endfor %}
+    </ul>
+</div>
+
+{% endif %}
+{% endblock %}
