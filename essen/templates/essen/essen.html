@@ -1,0 +1,46 @@
+<!--
+-- Copyright (c) 2023 Felix Huettner.
+--
+-- This file is part of Essensliste 
+-- (see https://github.com/huettner94/essensliste).
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+{% extends "essen/home.html" %}
+
+{% block subcontent %}
+
+<h2>Für Essen "{{ food }}"</h2>
+
+<div class='lists'>
+    <div>
+        Tage:
+        <ul>
+        {% for day in matched_days %}
+            <li><a href="{% url 'day' day.id %}">{{day.date | date:"d.m.Y"}}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div>
+        Passende Symptome:
+        <ul>
+        {% for item, perc, match, matchfood, matchillness, total, offset in matched_illness %}
+            <li><a href="{% url 'illness' item %}">{{item}}</a>: {{perc|floatformat:2}}% ({{match}}/{{total}}) (Tage abstand: {{offset}}) (Tage Essen: {{matchfood}}) (Tage Symptom: {{matchillness}})</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}

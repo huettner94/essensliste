@@ -1,0 +1,73 @@
+<!--
+-- Copyright (c) 2023 Felix Huettner.
+--
+-- This file is part of Essensliste 
+-- (see https://github.com/huettner94/essensliste).
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+{% extends "essen/base.html" %}
+
+{% block content %}
+
+<form action="/" method="post">
+    {% csrf_token %}
+    <div><div>{{ dayaddform.day.label }}:</div> {{ dayaddform.day }}</div>
+    <input type="submit" value="Submit">
+</form>
+
+<a href="{% url 'calc' %}">Auswertung</a>
+
+<hr>
+
+<div class="content">
+    <div>
+        <h2>Auswahl</h2>
+
+        <div class="lists">
+            <div>
+                Tage:
+                <ul>
+                    {% for day in days %}
+                        <li><a href="{% url 'day' day.id %}">{{day.date | date:"d.m.Y"}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                Essen:
+                <ul>
+                    {% for food in foods %}
+                        <li><a href="{% url 'essen' food %}">{{ food }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                Symptome:
+                    <ul>
+                    {% for illness in illnesses %}
+                        <li><a href="{% url 'illness' illness %}">{{ illness }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        {% block subcontent %}
+        {% endblock %}
+    </div>
+
+</div>
+
+{% endblock %}
