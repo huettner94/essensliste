@@ -1,4 +1,4 @@
-Django==3.2.21
+Django==5.0.3
 flake8
 bitarray
 gunicorn
